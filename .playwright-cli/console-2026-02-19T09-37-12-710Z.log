@@ -1,8 +1,0 @@
-Total messages: 8 (Errors: 0, Warnings: 1)
-Returning 4 messages for level "info"
-
-[INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://127.0.0.1:5173/node_modules/.vite/deps/chunk-T2SWDQEL.js?v=fe60c148:21550
-[INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://127.0.0.1:5173/node_modules/.vite/deps/chunk-T2SWDQEL.js?v=6b051c40:21550
-[WARNING] Error fetching setting banner_enabled: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
-    at http://127.0.0.1…//127.0.0.1:5173/src/components/Header.tsx:46:29), hint: , code: } @ http://127.0.0.1:5173/src/lib/services/settingsService.ts:5
-[INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://127.0.0.1:5173/node_modules/.vite/deps/chunk-T2SWDQEL.js?v=6b051c40:21550

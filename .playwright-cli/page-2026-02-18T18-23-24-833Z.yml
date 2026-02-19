@@ -1,9 +1,0 @@
-- generic [ref=e4]:
-  - heading "Configuration Missing" [level=1] [ref=e5]
-  - paragraph [ref=e6]: This application requires Supabase connection details to function.
-  - paragraph [ref=e7]:
-    - text: Please create a
-    - code [ref=e8]: .env
-    - text: "file in the project root with the following keys:"
-  - generic [ref=e9]: VITE_SUPABASE_URL=YOUR_URL VITE_SUPABASE_ANON_KEY=YOUR_KEY
-  - button "Reload Page" [ref=e10] [cursor=pointer]
