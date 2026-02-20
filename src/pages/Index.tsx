@@ -6,18 +6,25 @@ import Footer from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { Product, formatPrice } from "@/lib/products";
 import { productService } from "@/lib/services/productService";
+import { settingsService } from "@/lib/services/settingsService";
 import { getDirectUrl } from "@/lib/utils/imageUtils";
+import { defaultHomeMediaSlots, HomeMediaSlot, mergeHomeMediaSlots } from "@/lib/homeMedia";
 
 const Index = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [homeMedia, setHomeMedia] = useState<HomeMediaSlot[]>(defaultHomeMediaSlots);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const run = async () => {
       try {
         setLoading(true);
-        const data = await productService.getProducts();
+        const [data, media] = await Promise.all([
+          productService.getProducts(),
+          settingsService.getJsonSetting<HomeMediaSlot[]>("home_media_slots", defaultHomeMediaSlots),
+        ]);
         setProducts((data || []).filter((p) => !p.isHidden));
+        setHomeMedia(mergeHomeMediaSlots(media));
       } catch (error) {
         console.error("Failed loading products", error);
       } finally {
@@ -29,6 +36,10 @@ const Index = () => {
 
   const latestProducts = useMemo(() => products.slice(0, 4), [products]);
   const handworkProducts = useMemo(() => products.slice(4, 8), [products]);
+  const mediaByKey = useMemo(() => {
+    const map = new Map(homeMedia.map((slot) => [slot.key, slot]));
+    return (key: string) => map.get(key);
+  }, [homeMedia]);
 
   return (
     <main className="min-h-screen relative overflow-hidden bg-puniora-void">
@@ -38,7 +49,7 @@ const Index = () => {
         <section className="pt-32 md:pt-40 pb-12 md:pb-20 px-4 md:px-8">
           <div className="max-w-7xl mx-auto rounded-3xl overflow-hidden relative min-h-[60vh] md:min-h-[70vh]">
             <img
-              src="/home/banner-main.jpg"
+              src={mediaByKey("hero_main")?.url || "/home/banner-main.jpg"}
               alt="Saree Sutra hero"
               className="absolute inset-0 h-full w-full object-cover"
               loading="eager"
@@ -54,7 +65,7 @@ const Index = () => {
                   Premium sarees curated for weddings, festive occasions, and elegant daily wear.
                 </p>
                 <Link
-                  to="/products"
+                  to={mediaByKey("hero_main")?.link || "/products"}
                   className="inline-flex items-center gap-2 bg-white text-puniora-black px-6 py-3 rounded-full text-xs uppercase tracking-[0.2em] font-semibold"
                 >
                   Shop Now <ArrowRight className="h-4 w-4" />
@@ -101,16 +112,16 @@ const Index = () => {
           <div className="max-w-7xl mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl text-center mb-10 text-puniora-black">Shop By Collection</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <Link to="/products" className="relative col-span-2 md:col-span-1 h-72 md:h-[30rem] rounded-2xl overflow-hidden">
-                <img src="/home/collection-1.jpg" alt="Festive Sarees" className="h-full w-full object-cover" loading="lazy" decoding="async" />
+              <Link to={mediaByKey("collection_1")?.link || "/products"} className="relative col-span-2 md:col-span-1 h-72 md:h-[30rem] rounded-2xl overflow-hidden">
+                <img src={mediaByKey("collection_1")?.url || "/home/collection-1.jpg"} alt="Festive Sarees" className="h-full w-full object-cover" loading="lazy" decoding="async" />
                 <div className="absolute inset-0 bg-black/30 flex items-end p-6"><span className="text-white text-xl font-heading">Festive Sarees</span></div>
               </Link>
-              <Link to="/products" className="relative h-72 md:h-[14.5rem] rounded-2xl overflow-hidden">
-                <img src="/home/collection-2.jpg" alt="Silk Edition" className="h-full w-full object-cover" loading="lazy" decoding="async" />
+              <Link to={mediaByKey("collection_2")?.link || "/products"} className="relative h-72 md:h-[14.5rem] rounded-2xl overflow-hidden">
+                <img src={mediaByKey("collection_2")?.url || "/home/collection-2.jpg"} alt="Silk Edition" className="h-full w-full object-cover" loading="lazy" decoding="async" />
                 <div className="absolute inset-0 bg-black/25 flex items-end p-4"><span className="text-white font-heading">Silk Edition</span></div>
               </Link>
-              <Link to="/products" className="relative h-72 md:h-[14.5rem] rounded-2xl overflow-hidden">
-                <img src="/home/collection-3.jpg" alt="Wedding Looks" className="h-full w-full object-cover" loading="lazy" decoding="async" />
+              <Link to={mediaByKey("collection_3")?.link || "/products"} className="relative h-72 md:h-[14.5rem] rounded-2xl overflow-hidden">
+                <img src={mediaByKey("collection_3")?.url || "/home/collection-3.jpg"} alt="Wedding Looks" className="h-full w-full object-cover" loading="lazy" decoding="async" />
                 <div className="absolute inset-0 bg-black/25 flex items-end p-4"><span className="text-white font-heading">Wedding Looks</span></div>
               </Link>
             </div>
@@ -139,7 +150,7 @@ const Index = () => {
               </Link>
             </div>
             <div className="rounded-2xl overflow-hidden">
-              <img src="/our-story-saree.jpg" alt="Saree Sutra brand story" className="h-full w-full object-cover" loading="lazy" decoding="async" />
+              <img src={mediaByKey("brand_story")?.url || "/our-story-saree.jpg"} alt="Saree Sutra brand story" className="h-full w-full object-cover" loading="lazy" decoding="async" />
             </div>
           </div>
         </section>
@@ -171,9 +182,9 @@ const Index = () => {
           <div className="max-w-7xl mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl text-center mb-10 text-puniora-black">Photo Gallery</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {["/home/gallery-1.jpg", "/home/gallery-2.jpg", "/home/gallery-3.jpg", "/home/gallery-4.jpg"].map((src) => (
-                <div key={src} className="aspect-[4/5] rounded-xl overflow-hidden">
-                  <img src={src} alt="Saree gallery" className="h-full w-full object-cover" loading="lazy" decoding="async" />
+              {["gallery_1", "gallery_2", "gallery_3", "gallery_4"].map((key, index) => (
+                <div key={key} className="aspect-[4/5] rounded-xl overflow-hidden">
+                  <img src={mediaByKey(key)?.url || `/home/gallery-${index + 1}.jpg`} alt="Saree gallery" className="h-full w-full object-cover" loading="lazy" decoding="async" />
                 </div>
               ))}
             </div>
