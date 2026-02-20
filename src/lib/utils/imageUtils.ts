@@ -10,7 +10,7 @@
  * @returns Direct view URL or original URL if not a Google Drive link
  */
 export const getDirectUrl = (url: string, width: number = 800): string => {
-    if (!url) return "";
+    if (!url) return "/fallback-product.jpg";
 
     // Handle Google Drive links
     if (url.includes('drive.google.com')) {
@@ -50,7 +50,7 @@ export const getDirectUrl = (url: string, width: number = 800): string => {
     // For the specific error case ":7070/..." this will fall through.
     // If it's garbage, let's return a safe placeholder to stop console errors.
     console.warn("Filtered invalid image URL:", url);
-    return "https://placehold.co/600x400?text=Invalid+Image";
+    return "/fallback-product.jpg";
 };
 
 /**

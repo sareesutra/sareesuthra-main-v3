@@ -91,7 +91,7 @@ const ProductCard = ({ product, index, overrideImages }: ProductCardProps) => {
             </div>
           ) : (
             <img
-              src={product.images && product.images.length > 0 ? getDirectUrl(product.images[0], 800) : "https://placehold.co/600x800/F5F5F5/333?text=No+Image"}
+              src={product.images && product.images.length > 0 ? getDirectUrl(product.images[0], 800) : "/fallback-product.jpg"}
               alt={`${product.name} - ${product.category}`}
               loading="lazy"
               decoding="async"

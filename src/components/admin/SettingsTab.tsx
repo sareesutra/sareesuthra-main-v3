@@ -283,7 +283,7 @@ const SettingsTab = () => {
                          className="object-cover w-full h-full"
                          onError={(e) => {
                            const target = e.target as HTMLImageElement;
-                           target.src = "https://placehold.co/600x400?text=Invalid+Image";
+                           target.src = "/fallback-product.jpg";
                          }}
                        />
                        {img.link && (
@@ -363,7 +363,7 @@ const SettingsTab = () => {
                          className="object-cover w-full h-full"
                          onError={(e) => {
                            const target = e.target as HTMLImageElement;
-                           target.src = "https://placehold.co/400x600?text=Invalid+Mobile+Image";
+                           target.src = "/fallback-product.jpg";
                          }}
                        />
                        {img.link && (

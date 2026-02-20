@@ -9,3 +9,4 @@ yarn-error.log*
 
 .playwright-cli/
 supabase/.temp/
+.vercel

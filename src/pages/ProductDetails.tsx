@@ -314,7 +314,7 @@ const ProductDetails = () => {
                   if (!currentMedia) {
                     return (
                        <div className="w-full h-full flex items-center justify-center p-4 md:p-8 bg-muted/10 rounded-2xl">
-                          <img src="https://placehold.co/600x800?text=No+Image" alt="Placeholder" className="h-full object-contain opacity-50" />
+                          <img src="/fallback-product.jpg" alt="Placeholder" className="h-full object-contain opacity-70" />
                        </div>
                     );
                   }
@@ -327,7 +327,7 @@ const ProductDetails = () => {
                         alt={product.name}
                         className="w-full h-full object-contain max-w-full max-h-full transition-all duration-500 group-hover:scale-105 animate-fade-in"
                         onError={(e) => {
-                          e.currentTarget.src = "https://placehold.co/600x800?text=No+Image";
+                          e.currentTarget.src = "/fallback-product.jpg";
                         }}
                       />
                     </div>

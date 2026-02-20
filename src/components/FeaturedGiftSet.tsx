@@ -95,7 +95,7 @@ const FeaturedGiftSet = () => {
 
     const productData = giftSet;
     const hasMainImage = productData.images && productData.images.length > 0 && productData.images[0];
-    const displayImage = hasMainImage ? productData.images[0] : "https://placehold.co/800x600/1a1a1a/e2b16e?text=No+Image";
+    const displayImage = hasMainImage ? productData.images[0] : "/fallback-product.jpg";
     const showBundleGrid = !hasMainImage && bundleImages.length > 0;
     
     // Create a truncated description if none exists or it's too long
