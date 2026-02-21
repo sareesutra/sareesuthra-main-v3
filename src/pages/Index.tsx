@@ -24,6 +24,11 @@ const Index = () => {
           settingsService.getJsonSetting<HomeMediaSlot[]>("home_media_slots", defaultHomeMediaSlots),
         ]);
         setProducts((data || []).filter((p) => !p.isHidden));
+
+        // If no media slots found in DB, initialize them
+        if (!media || media.length === 0) {
+          await settingsService.initializeDefaultSettings(defaultHomeMediaSlots);
+        }
         setHomeMedia(mergeHomeMediaSlots(media));
       } catch (error) {
         console.error("Failed loading products", error);
@@ -207,7 +212,7 @@ const Index = () => {
             </div>
           </div>
         </section>
-        
+
         <Footer />
 
         <SEO
