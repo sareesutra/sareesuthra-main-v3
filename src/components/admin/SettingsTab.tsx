@@ -15,6 +15,7 @@ const SettingsTab = () => {
   const [homeMediaSlots, setHomeMediaSlots] = useState<HomeMediaSlot[]>(defaultHomeMediaSlots);
   const [enableBanner, setEnableBanner] = useState(false);
   const [bannerText, setBannerText] = useState("");
+  const [siteLogo, setSiteLogo] = useState("/saree-sutra-logo.png");
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -29,15 +30,17 @@ const SettingsTab = () => {
   const fetchSettings = async () => {
     try {
       setLoading(true);
-      const [savedSlots, bannerEnabled, savedBannerText] = await Promise.all([
+      const [savedSlots, bannerEnabled, savedBannerText, savedLogo] = await Promise.all([
         settingsService.getJsonSetting<HomeMediaSlot[]>("home_media_slots", defaultHomeMediaSlots),
         settingsService.getSetting("banner_enabled"),
         settingsService.getSetting("banner_text"),
+        settingsService.getSetting("site_logo"),
       ]);
 
       setHomeMediaSlots(mergeHomeMediaSlots(savedSlots));
       setEnableBanner(bannerEnabled === "true");
       setBannerText(savedBannerText || "");
+      if (savedLogo) setSiteLogo(savedLogo);
     } catch (error) {
       console.error("Failed to fetch settings:", error);
       toast.error("Failed to load settings");
@@ -62,7 +65,13 @@ const SettingsTab = () => {
     try {
       setUploadingSlot(activeUploadSlot);
       const uploadedUrl = await productService.uploadImage(file);
-      updateSlot(activeUploadSlot, { url: uploadedUrl });
+
+      if (activeUploadSlot === "site_logo") {
+        setSiteLogo(uploadedUrl);
+      } else {
+        updateSlot(activeUploadSlot, { url: uploadedUrl });
+      }
+
       toast.success("Image uploaded. Click Save Changes to publish.");
     } catch (error: any) {
       console.error(error);
@@ -81,6 +90,7 @@ const SettingsTab = () => {
         settingsService.updateSetting("home_media_slots", homeMediaSlots),
         settingsService.updateSetting("banner_enabled", String(enableBanner)),
         settingsService.updateSetting("banner_text", bannerText),
+        settingsService.updateSetting("site_logo", siteLogo),
       ]);
 
       const allSuccess = results.every((r) => r.success);
@@ -123,6 +133,54 @@ const SettingsTab = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          <div className="space-y-4 pb-6 border-b">
+            <h3 className="text-lg font-medium flex items-center gap-2">
+              <ImageIcon className="h-5 w-5 text-gold" />
+              General Settings
+            </h3>
+            <div className="rounded-xl border border-border p-4 bg-muted/10 space-y-4">
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-1">
+                  <Label className="text-base font-bold">Site Logo</Label>
+                  <p className="text-sm text-muted-foreground">The logo displayed in the header and footer.</p>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => openUploadForSlot("site_logo")}
+                  disabled={uploadingSlot === "site_logo"}
+                >
+                  {uploadingSlot === "site_logo" ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <>
+                      <UploadCloud className="h-4 w-4 mr-2" /> Change Logo
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              <div className="bg-white/50 dark:bg-black/50 p-4 rounded-lg flex items-center justify-center border border-dashed">
+                <img
+                  src={getDirectUrl(siteLogo)}
+                  alt="Logo Preview"
+                  className="h-12 w-auto object-contain"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="logo-url">Logo URL</Label>
+                <Input
+                  id="logo-url"
+                  value={siteLogo}
+                  onChange={(e) => setSiteLogo(e.target.value.trim())}
+                  placeholder="/saree-sutra-logo.png"
+                />
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {homeMediaSlots.map((slot) => (
               <div key={slot.key} className="rounded-xl border border-border p-4 bg-muted/10 space-y-4">

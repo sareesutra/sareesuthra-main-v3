@@ -36,13 +36,17 @@ const Header = () => {
   // Banner State
   const [bannerEnabled, setBannerEnabled] = useState(false);
   const [bannerText, setBannerText] = useState("");
+  const [logoUrl, setLogoUrl] = useState("/saree-sutra-logo.png");
 
   useEffect(() => {
     const fetchSettings = async () => {
       const enabled = await settingsService.getJsonSetting<boolean>("banner_enabled", false);
       const text = await settingsService.getSetting("banner_text");
+      const savedLogo = await settingsService.getSetting("site_logo");
+
       setBannerEnabled(enabled);
       setBannerText(text || "");
+      if (savedLogo) setLogoUrl(savedLogo);
     };
     fetchSettings();
   }, [location.pathname]); // Re-check on nav change potentially, or just mount
@@ -82,7 +86,7 @@ const Header = () => {
             {/* Logo */}
             <Link to="/" className="flex flex-col items-center group drop-shadow-sm">
               <img
-                src="/saree-sutra-logo.png"
+                src={logoUrl}
                 alt="Saree Sutra"
                 className={`h-10 md:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105`}
               />
@@ -183,7 +187,7 @@ const Header = () => {
                   <SheetContent side="right" className="w-[85vw] sm:w-[380px] bg-white/95 backdrop-blur-xl border-l border-gray-100 p-0 flex flex-col">
                     <SheetHeader className="p-6 border-b border-gray-100/50 items-center justify-center h-24 text-center">
                       <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
-                      <img src="/saree-sutra-logo.png" alt="Saree Sutra" className="h-10 w-auto object-contain" />
+                      <img src={logoUrl} alt="Saree Sutra" className="h-10 w-auto object-contain" />
                     </SheetHeader>
 
                     <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
