@@ -59,7 +59,7 @@ const Index = () => {
               className="absolute inset-0 h-full w-full object-cover"
               loading="eager"
               decoding="async"
-              fetchpriority="high"
+              fetchPriority="high"
             />
             <div className="absolute inset-0 bg-black/30" />
             <div className="relative z-10 h-full min-h-[60vh] md:min-h-[70vh] flex items-center justify-center text-center px-6">
