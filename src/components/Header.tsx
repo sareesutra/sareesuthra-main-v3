@@ -72,19 +72,19 @@ const Header = () => {
       <header
         className={`fixed left-0 right-0 z-50 transition-all duration-500 [transition-timing-function:cubic-bezier(0.32,0.72,0,1)] top-0 px-4 md:px-0 ${bannerEnabled && bannerText ? 'mt-8' : 'mt-0'} 
         ${!isTransparent
-          ? "py-3 mt-4 mx-4 md:mx-8 border-gray-200/50 shadow-sm"
-          : "bg-transparent py-6"
-        } 
+            ? "py-3 mt-4 mx-4 md:mx-8 border-gray-200/50 shadow-sm"
+            : "bg-transparent py-6"
+          } 
         ${!isTransparent ? "glass rounded-[32px] bg-white/80" : "pt-8 pb-12"}`}
       >
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between h-24 md:h-32">
             {/* Logo */}
             <Link to="/" className="flex flex-col items-center group drop-shadow-sm">
-              <img 
-                src="/saree-sutra-logo.png" 
-                alt="Saree Sutra" 
-                className={`h-20 md:h-28 w-auto object-contain transition-transform duration-300 group-hover:scale-105`}
+              <img
+                src="/saree-sutra-logo.png"
+                alt="Saree Sutra"
+                className={`h-10 md:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105`}
               />
             </Link>
 
@@ -182,54 +182,54 @@ const Header = () => {
                   </SheetTrigger>
                   <SheetContent side="right" className="w-[85vw] sm:w-[380px] bg-white/95 backdrop-blur-xl border-l border-gray-100 p-0 flex flex-col">
                     <SheetHeader className="p-6 border-b border-gray-100/50 items-center justify-center h-24 text-center">
-                       <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
-                       <img src="/saree-sutra-logo.png" alt="Saree Sutra" className="h-16 w-auto object-contain" />
+                      <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
+                      <img src="/saree-sutra-logo.png" alt="Saree Sutra" className="h-10 w-auto object-contain" />
                     </SheetHeader>
-                    
-                    <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
-                        <nav className="flex flex-col space-y-4">
-                          <p className="text-xs uppercase tracking-[0.2em] text-gray-400 font-bold mb-2">Menu</p>
-                          {navLinks.map((link, i) => (
-                            <SheetClose key={link.label} asChild>
-                              <Link
-                                to={link.href}
-                                className="text-2xl font-heading tracking-wide text-puniora-black hover:text-puniora-orange-500 transition-all duration-300 group flex items-center gap-4 py-2 border-b border-gray-50/50"
-                              >
-                                <span className="text-[10px] font-sans text-puniora-orange-500 opacity-50 group-hover:opacity-100 transition-opacity">0{i + 1}</span>
-                                <span className="group-hover:translate-x-2 transition-transform duration-300">{link.label}</span>
-                              </Link>
-                            </SheetClose>
-                          ))}
-                        </nav>
 
-                        <div className="space-y-4 mt-4">
-                           <p className="text-xs uppercase tracking-[0.2em] text-gray-400 font-bold mb-2">Policies</p>
-                            <SheetClose asChild>
-                              <Link to="/privacy-policy" className="block text-base font-medium text-gray-600 hover:text-puniora-orange-500 transition-colors py-1">Privacy Policy</Link>
-                            </SheetClose>
-                            <SheetClose asChild>
-                              <Link to="/shipping-policy" className="block text-base font-medium text-gray-600 hover:text-puniora-orange-500 transition-colors py-1">Shipping Policy</Link>
-                            </SheetClose>
-                            <SheetClose asChild>
-                              <Link to="/refund-policy" className="block text-base font-medium text-gray-600 hover:text-puniora-orange-500 transition-colors py-1">Refund & Return</Link>
-                            </SheetClose>
-                        </div>
+                    <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+                      <nav className="flex flex-col space-y-4">
+                        <p className="text-xs uppercase tracking-[0.2em] text-gray-400 font-bold mb-2">Menu</p>
+                        {navLinks.map((link, i) => (
+                          <SheetClose key={link.label} asChild>
+                            <Link
+                              to={link.href}
+                              className="text-2xl font-heading tracking-wide text-puniora-black hover:text-puniora-orange-500 transition-all duration-300 group flex items-center gap-4 py-2 border-b border-gray-50/50"
+                            >
+                              <span className="text-[10px] font-sans text-puniora-orange-500 opacity-50 group-hover:opacity-100 transition-opacity">0{i + 1}</span>
+                              <span className="group-hover:translate-x-2 transition-transform duration-300">{link.label}</span>
+                            </Link>
+                          </SheetClose>
+                        ))}
+                      </nav>
+
+                      <div className="space-y-4 mt-4">
+                        <p className="text-xs uppercase tracking-[0.2em] text-gray-400 font-bold mb-2">Policies</p>
+                        <SheetClose asChild>
+                          <Link to="/privacy-policy" className="block text-base font-medium text-gray-600 hover:text-puniora-orange-500 transition-colors py-1">Privacy Policy</Link>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Link to="/shipping-policy" className="block text-base font-medium text-gray-600 hover:text-puniora-orange-500 transition-colors py-1">Shipping Policy</Link>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Link to="/refund-policy" className="block text-base font-medium text-gray-600 hover:text-puniora-orange-500 transition-colors py-1">Refund & Return</Link>
+                        </SheetClose>
+                      </div>
                     </div>
 
-                     <SheetFooter className="p-6 border-t border-gray-100/50 bg-gray-50/50">
-                        <div className="w-full flex flex-col gap-4">
-                           <SheetClose asChild>
-                            <Link to={user ? "/account" : "/auth"}>
-                              <Button className="w-full bg-puniora-black text-white hover:bg-puniora-orange-500 transition-colors h-12 rounded-xl text-xs uppercase tracking-widest font-bold">
-                                {user ? "My Account" : "Login / Register"}
-                              </Button>
-                            </Link>
-                           </SheetClose>
-                           <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest">
-                              © 2026 Saree Sutra
-                           </p>
-                        </div>
-                     </SheetFooter>
+                    <SheetFooter className="p-6 border-t border-gray-100/50 bg-gray-50/50">
+                      <div className="w-full flex flex-col gap-4">
+                        <SheetClose asChild>
+                          <Link to={user ? "/account" : "/auth"}>
+                            <Button className="w-full bg-puniora-black text-white hover:bg-puniora-orange-500 transition-colors h-12 rounded-xl text-xs uppercase tracking-widest font-bold">
+                              {user ? "My Account" : "Login / Register"}
+                            </Button>
+                          </Link>
+                        </SheetClose>
+                        <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest">
+                          © 2026 Saree Sutra
+                        </p>
+                      </div>
+                    </SheetFooter>
                   </SheetContent>
                 </Sheet>
               </div>

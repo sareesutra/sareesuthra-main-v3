@@ -98,10 +98,17 @@ const Admin = () => {
       // Also seed reviews if products seeded successfully or already exist
       const reviewsResult = await reviewService.seedInitialReviews();
 
+      // Seed site settings
+      const { defaultHomeMediaSlots } = await import("@/lib/homeMedia");
+      const settingsResult = await settingsService.initializeDefaultSettings(defaultHomeMediaSlots);
+
       if (result.success) {
         let msg = result.message;
         if (reviewsResult.success && !reviewsResult.message.includes("already populated")) {
-          msg += " Reviews also seeded!";
+          msg += " Reviews seeded!";
+        }
+        if (settingsResult.success && settingsResult.message !== "Settings already exist") {
+          msg += " Settings initialized!";
         }
 
         if (msg.includes("already populated") && reviewsResult.message.includes("already populated")) {

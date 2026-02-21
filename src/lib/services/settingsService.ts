@@ -29,7 +29,7 @@ export const settingsService = {
 
   async updateSetting(key: string, value: string | object): Promise<{ success: boolean; error?: any }> {
     const stringValue = typeof value === 'string' ? value : JSON.stringify(value);
-    
+
     const { error } = await supabase
       .from("site_settings")
       .upsert({ key, value: stringValue, updated_at: new Date().toISOString() });
@@ -39,6 +39,23 @@ export const settingsService = {
       return { success: false, error };
     }
 
-    return { success: true };
+  },
+
+  async initializeDefaultSettings(defaultSlots: any[]): Promise<{ success: boolean; message: string }> {
+    try {
+      // Check if home_media_slots exists
+      const existing = await this.getSetting("home_media_slots");
+      if (!existing) {
+        console.log("Initializing default home_media_slots...");
+        await this.updateSetting("home_media_slots", defaultSlots);
+        await this.updateSetting("banner_enabled", "false");
+        await this.updateSetting("banner_text", "Welcome to Saree Sutra!");
+        return { success: true, message: "Settings initialized successfully" };
+      }
+      return { success: true, message: "Settings already exist" };
+    } catch (error: any) {
+      console.error("Initialization failed:", error);
+      return { success: false, message: error.message };
+    }
   }
 };
